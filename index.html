@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techry - Expert Computer Services</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 149, 255, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ff88, #00a3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background-color: #60A5FA;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { transform: scale(0.2); opacity: 0.2; }
+            50% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-bubble {
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-fill {
+            animation: fillBar 1.5s ease-out forwards;
+        }
+
+        @keyframes fillBar {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .tech-icon:hover i {
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hover\:animate-spin-slow:hover {
+            animation: spin-slow 2s linear infinite;
+        }
+
+        .tech-icon {
+            position: relative;
+        }
+
+        .tech-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 0.5rem;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tech-icon:hover::after {
+            opacity: 1;
+        }
+
+        .animate-fill {
+            transform-origin: left;
+            animation: fillProgress 1.5s ease-out forwards;
+        }
+
+        @keyframes fillProgress {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" class="text-2xl font-bold gradient-text">Techry</a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="hover:text-blue-400 transition-colors">Home</a>
+                    <a href="#about" class="hover:text-blue-400 transition-colors">About</a>
+                    <a href="#services" class="hover:text-blue-400 transition-colors">Services</a>
+                    <a href="#contact" class="hover:text-blue-400 transition-colors">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-blue-400 transition-colors">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#home" class="block px-3 py-2 rounded-md hover:bg-blue-500/10 hover:text-blue-400 transition-colors">Home</a>
+                    <a href="#about" class="block px-3 py-2 rounded-md hover:bg-blue-500/10 hover:text-blue-400 transition-colors">About</a>
+                    <a href="#services" class="block px-3 py-2 rounded-md hover:bg-blue-500/10 hover:text-blue-400 transition-colors">Services</a>
+                    <a href="#contact" class="block px-3 py-2 rounded-md hover:bg-blue-500/10 hover:text-blue-400 transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20"></div>
+        <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                Expert Computer Support
+                <span class="block text-blue-400">Fast, Reliable, and Secure</span>
+            </h1>
+            <p class="text-xl mb-8">Tech issues? I've got you covered! Get expert help with <span id="typing-text"></span></p>
+            <a href="#contact" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
+                Get Help Now
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">About Me</h2>
+            
+            <!-- Introduction Card -->
+            <div class="glass-card p-8 rounded-2xl mb-12 max-w-3xl mx-auto">
+                <div class="chat-bubble relative opacity-0" id="chat-bubble">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center">
+                            <i class="fas fa-terminal text-2xl text-white"></i>
+                        </div>
+                        <div class="typing-dots ml-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="message-bubble bg-blue-500/10 p-6 rounded-2xl border border-blue-500/20">
+                        <h3 class="text-2xl font-bold mb-4">Hey, I'm Ry! 👋</h3>
+                        <p class="text-gray-300">
+                            At just 20 years old, I'm your go-to computer geek in Los Angeles! With a passion for technology and problem-solving, I've turned my expertise into a mission to help others with their tech challenges. Whether it's troubleshooting, repairs, or security concerns, I bring a fresh perspective and dedicated approach to every project.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills & Technologies Grid -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Left Column - Core Skills -->
+                <div class="space-y-6">
+                    <div class="glass-card p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <i class="fas fa-star text-yellow-400 mr-3 animate-pulse"></i>
+                            Core Expertise
+                        </h4>
+                        <div class="space-y-6">
+                            <!-- Tech Support -->
+                            <div class="relative pt-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-tools text-blue-400 mr-2"></i>
+                                        <span>Tech Support</span>
+                                    </div>
+                                    <span class="text-blue-400">95%</span>
+                                </div>
+                                <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-2 bg-blue-500 rounded-full animate-fill" style="width: 95%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Web Development -->
+                            <div class="relative pt-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-code text-blue-400 mr-2"></i>
+                                        <span>Web Development</span>
+                                    </div>
+                                    <span class="text-blue-400">90%</span>
+                                </div>
+                                <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-2 bg-blue-500 rounded-full animate-fill" style="width: 90%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Security -->
+                            <div class="relative pt-1">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-shield-alt text-blue-400 mr-2"></i>
+                                        <span>Security Specialist</span>
+                                    </div>
+                                    <span class="text-blue-400">85%</span>
+                                </div>
+                                <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-2 bg-blue-500 rounded-full animate-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Networking Section -->
+                    <div class="glass-card p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <i class="fas fa-network-wired text-blue-400 mr-3 animate-pulse"></i>
+                            Network & Security
+                        </h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fas fa-network-wired text-4xl text-green-400 transition-transform hover:animate-pulse"></i>
+                                <p class="mt-2 text-sm">Networking</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fas fa-shield-alt text-4xl text-blue-400 transition-transform hover:animate-pulse"></i>
+                                <p class="mt-2 text-sm">Security</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fas fa-server text-4xl text-purple-400 transition-transform hover:animate-pulse"></i>
+                                <p class="mt-2 text-sm">Servers</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fas fa-cloud text-4xl text-blue-300 transition-transform hover:animate-pulse"></i>
+                                <p class="mt-2 text-sm">Cloud</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Technologies -->
+                <div class="space-y-6">
+                    <!-- Frontend -->
+                    <div class="glass-card p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <i class="fas fa-code text-blue-400 mr-3 animate-pulse"></i>
+                            Frontend Technologies
+                        </h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-react text-4xl text-blue-400 transition-transform hover:animate-spin-slow"></i>
+                                <p class="mt-2 text-sm">React</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-angular text-4xl text-red-500 transition-transform hover:animate-spin-slow"></i>
+                                <p class="mt-2 text-sm">Angular</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-js text-4xl text-yellow-400 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">JavaScript</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend -->
+                    <div class="glass-card p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <i class="fas fa-server text-blue-400 mr-3 animate-pulse"></i>
+                            Backend & Tools
+                        </h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-python text-4xl text-blue-400 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">Python</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-node text-4xl text-green-500 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">Node.js</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-git-alt text-4xl text-orange-500 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">Git</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Development Tools -->
+                    <div class="glass-card p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-6 flex items-center">
+                            <i class="fas fa-tools text-blue-400 mr-3 animate-pulse"></i>
+                            Development Tools
+                        </h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-docker text-4xl text-blue-500 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">Docker</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-aws text-4xl text-yellow-500 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">AWS</p>
+                            </div>
+                            <div class="tech-icon p-4 text-center transform transition-all duration-300 hover:scale-110">
+                                <i class="fab fa-linux text-4xl text-gray-400 transition-transform hover:animate-bounce"></i>
+                                <p class="mt-2 text-sm">Linux</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">Services</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Web Development -->
+                <div class="glass-card service-card p-6 rounded-xl">
+                    <i class="fas fa-code text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-4">Web Development</h3>
+                    <p class="text-gray-300 mb-4">Custom websites and web applications built with modern technologies.</p>
+                    <div class="service-details">
+                        <ul class="list-disc list-inside mb-4 text-gray-300">
+                            <li>Custom website development</li>
+                            <li>Responsive design</li>
+                            <li>E-commerce solutions</li>
+                            <li>Website maintenance</li>
+                        </ul>
+                        <p class="text-sm text-gray-400">Starting at $500</p>
+                    </div>
+                    <button onclick="window.location.href='services.html'" class="text-blue-400 hover:text-blue-300">Learn More →</button>
+                </div>
+
+                <!-- Shopify Development -->
+                <div class="glass-card service-card p-6 rounded-xl">
+                    <i class="fab fa-shopify text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-4">Shopify Development</h3>
+                    <p class="text-gray-300 mb-4">Complete Shopify store setup and management.</p>
+                    <div class="service-details">
+                        <ul class="list-disc list-inside mb-4 text-gray-300">
+                            <li>Store setup and configuration</li>
+                            <li>Theme customization</li>
+                            <li>App integration</li>
+                            <li>Ongoing management</li>
+                        </ul>
+                        <p class="text-sm text-gray-400">Starting at $300</p>
+                    </div>
+                    <button onclick="window.location.href='services.html'" class="text-blue-400 hover:text-blue-300">Learn More →</button>
+                </div>
+
+                <!-- Remote Support -->
+                <div class="glass-card service-card p-6 rounded-xl">
+                    <i class="fas fa-laptop-house text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-4">Remote Support</h3>
+                    <p class="text-gray-300 mb-4">Quick and efficient remote troubleshooting services.</p>
+                    <div class="service-details">
+                        <ul class="list-disc list-inside mb-4 text-gray-300">
+                            <li>Software issues</li>
+                            <li>System optimization</li>
+                            <li>Security setup</li>
+                            <li>24/7 availability</li>
+                        </ul>
+                        <p class="text-sm text-gray-400">$50/hour</p>
+                    </div>
+                    <button onclick="window.location.href='services.html'" class="text-blue-400 hover:text-blue-300">Learn More →</button>
+                </div>
+
+                <!-- On-Site Support -->
+                <div class="glass-card service-card p-6 rounded-xl">
+                    <i class="fas fa-home text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-4">On-Site Support</h3>
+                    <p class="text-gray-300 mb-4">Personal tech support at your location in LA.</p>
+                    <div class="service-details">
+                        <ul class="list-disc list-inside mb-4 text-gray-300">
+                            <li>Home visits</li>
+                            <li>Office setup</li>
+                            <li>Hardware installation</li>
+                            <li>Network configuration</li>
+                        </ul>
+                        <p class="text-sm text-gray-400">$75/hour + travel</p>
+                    </div>
+                    <button onclick="window.location.href='services.html'" class="text-blue-400 hover:text-blue-300">Learn More →</button>
+                </div>
+
+                <!-- Software Solutions -->
+                <div class="glass-card service-card p-6 rounded-xl">
+                    <i class="fas fa-desktop text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-4">Software Solutions</h3>
+                    <p class="text-gray-300 mb-4">Custom software and automation solutions.</p>
+                    <div class="service-details">
+                        <ul class="list-disc list-inside mb-4 text-gray-300">
+                            <li>Custom scripts</li>
+                            <li>Process automation</li>
+                            <li>Software integration</li>
+                            <li>Performance optimization</li>
+                        </ul>
+                        <p class="text-sm text-gray-400">Custom pricing</p>
+                    </div>
+                    <button onclick="window.location.href='services.html'" class="text-blue-400 hover:text-blue-300">Learn More →</button>
+                </div>
+
+                <!-- Security Services -->
+                <div class="glass-card service-card p-6 rounded-xl">
+                    <i class="fas fa-shield-alt text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-4">Security Services</h3>
+                    <p class="text-gray-300 mb-4">Comprehensive security solutions and setup.</p>
+                    <div class="service-details">
+                        <ul class="list-disc list-inside mb-4 text-gray-300">
+                            <li>Security audits</li>
+                            <li>VPN setup</li>
+                            <li>Password management</li>
+                            <li>Data encryption</li>
+                        </ul>
+                        <p class="text-sm text-gray-400">Starting at $200</p>
+                    </div>
+                    <button onclick="window.location.href='services.html'" class="text-blue-400 hover:text-blue-300">Learn More →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Replace the existing Areas I Serve section with this -->
+    <section id="service-areas" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">Areas I Serve</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- LA County Card -->
+                <div class="glass-card p-8 rounded-xl hover:transform hover:scale-105 transition-transform text-center">
+                    <div class="mb-6">
+                        <i class="fas fa-city text-6xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-blue-400">Los Angeles County</h3>
+                    <p class="text-gray-300">Serving the greater Los Angeles area with professional tech support and solutions.</p>
+                    <div class="mt-4">
+                        <i class="fas fa-map-marker-alt text-blue-400 mr-2"></i>
+                        <span class="text-gray-300">30 mile radius</span>
+                    </div>
+                </div>
+
+                <!-- Orange County Card -->
+                <div class="glass-card p-8 rounded-xl hover:transform hover:scale-105 transition-transform text-center">
+                    <div class="mb-6">
+                        <i class="fas fa-sun text-6xl text-blue-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-blue-400">Orange County</h3>
+                    <p class="text-gray-300">Delivering expert tech services throughout Orange County.</p>
+                    <div class="mt-4">
+                        <i class="fas fa-map-marker-alt text-blue-400 mr-2"></i>
+                        <span class="text-gray-300">All major cities covered</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Update the Contact section -->
+    <section id="contact" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">Get In Touch</h2>
+            
+            <!-- Contact Info Cards -->
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">
+                <!-- Email -->
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-envelope text-3xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Email</h3>
+                    <a href="mailto:ry.contact@proton.me" class="text-gray-300 hover:text-blue-400 transition-colors">
+                        ry.contact@proton.me
+                    </a>
+                </div>
+                
+                <!-- GitHub -->
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fab fa-github text-3xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">GitHub</h3>
+                    <a href="https://github.com/techrys" target="_blank" class="text-gray-300 hover:text-blue-400 transition-colors">
+                        github.com/techrys
+                    </a>
+                </div>
+                
+                <!-- Telegram -->
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fab fa-telegram text-3xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Telegram</h3>
+                    <a href="https://t.me/syntaxuser" target="_blank" class="text-gray-300 hover:text-blue-400 transition-colors">
+                        @syntaxuser
+                    </a>
+                </div>
+            </div>
+
+            <!-- Existing contact form -->
+            <div class="glass-card p-8 rounded-xl max-w-2xl mx-auto">
+                <form action="https://formspree.io/f/meoqkdba" method="POST" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Name</label>
+                        <input type="text" name="name" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email</label>
+                        <input type="email" name="_replyto" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Message</label>
+                        <textarea name="message" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors h-32" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add this success modal after your form section -->
+    <div id="successModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-900 glass-card p-8 rounded-xl text-center max-w-md mx-4">
+            <div class="mb-4">
+                <i class="fas fa-check-circle text-6xl text-green-400"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Message Sent Successfully!</h3>
+            <p class="text-gray-300 mb-6">Thank you for reaching out. I'll get back to you soon!</p>
+            <button onclick="closeSuccessModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Updated Footer with Social Links -->
+    <footer class="py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col items-center space-y-6">
+                <div class="flex space-x-6">
+                    <a href="https://github.com/techrys" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                    <a href="https://t.me/syntaxuser" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors">
+                        <i class="fab fa-telegram text-2xl"></i>
+                    </a>
+                </div>
+                <p class="text-gray-400">© 2025 Techry. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Typing animation
+        new Typed('#typing-text', {
+            strings: ['PC Repairs', 'Security Checkups', 'Tech Support', 'Data Recovery'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate service cards on scroll
+        gsap.utils.toArray('.service-card').forEach(card => {
+            gsap.from(card, {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=100',
+                    end: 'top center',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // Animate sections on scroll
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section, {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top bottom-=100',
+                    end: 'top center',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // Form submission handling
+        const form = document.querySelector('form');
+        const successModal = document.getElementById('successModal');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    form.reset();
+                    successModal.classList.remove('hidden');
+                    // Add animation class
+                    successModal.querySelector('.glass-card').classList.add('animate-bounce');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        function closeSuccessModal() {
+            successModal.classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                closeSuccessModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatBubble = document.getElementById('chat-bubble');
+            chatBubble.style.opacity = '1';
+        });
+
+        // Add this to your existing scripts
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Toggle mobile menu
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // Toggle icon between bars and times
+            const icon = mobileMenuButton.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        });
+    </script>
+</body>
+</html>
